@@ -1,4 +1,4 @@
-module webNewsServiceGin
+module github.com/IslamCHup/web-news-service-gin
 
 go 1.25.1
 

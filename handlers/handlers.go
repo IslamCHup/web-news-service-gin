@@ -23,7 +23,11 @@ func GetNewsById(c *gin.Context) {
 
 func CreateNews(c *gin.Context) {
 	create := models.News{}
-	c.ShouldBindJSON(&create)
+	err := c.ShouldBindJSON(&create)
+	if err != nil {
+		c.String(http.StatusBadGateway, "Неправильный запрос")
+		return
+	}
 	created := memory.Create(create)
 	c.JSON(http.StatusOK, created)
 }
@@ -31,7 +35,11 @@ func CreateNews(c *gin.Context) {
 func UpdateNews(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	needUpd := models.News{}
-	c.ShouldBindJSON(&needUpd)
+	err := c.ShouldBindJSON(&needUpd)
+	if err != nil{
+		c.String(http.StatusBadRequest, "Нет такой новости")
+		return
+	}
 	isUpdated := memory.Update(id, needUpd)
 	wordUpd := ""
 	if isUpdated {
